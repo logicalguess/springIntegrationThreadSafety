@@ -9,13 +9,13 @@
 
     <task:executor id="taskExec" pool-size="50" keep-alive="120" />
 
-	<bean id="service" class="demo.DelayedService"/>
+    <bean id="service" class="demo.DelayedService"/>
 
     <int:channel id="channel-in">
         <int:queue capacity="10"/>
     </int:channel>
 
-	<int:service-activator ref="service" input-channel="channel-in">
+    <int:service-activator ref="service" input-channel="channel-in">
         <int:poller fixed-delay="100" time-unit="MILLISECONDS" task-executor="taskExec"></int:poller>
     </int:service-activator>
 
