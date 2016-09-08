@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
 
-    <task:executor id="taskExec" pool-size="50" keep-alive="120" />
+    <task:executor id="taskExec" pool-size="50" keep-alive="120"/>
 
     <bean id="service" class="demo.DelayedService"/>
 
