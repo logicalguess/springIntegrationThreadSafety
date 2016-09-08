@@ -19,5 +19,4 @@
         <int:poller fixed-delay="100" time-unit="MILLISECONDS" task-executor="taskExec"></int:poller>
     </int:service-activator>
 
-
 </beans>
