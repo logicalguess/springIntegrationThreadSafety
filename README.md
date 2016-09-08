@@ -52,3 +52,34 @@
             TimeUnit.SECONDS.sleep(10);
         }
     }
+#
+    Saying hello from thread : 14
+    Saying hello from thread : 15
+    Saying hello from thread : 16
+    Saying hello from thread : 17
+    Saying hello from thread : 18
+    Saying hello from thread : 19
+    Saying hello from thread : 20
+    Saying hello from thread : 21
+    Saying hello from thread : 22
+    Saying hello from thread : 23
+    Delays in thread demo.DelayedService@4119dc89 - 12
+    Delays in thread demo.DelayedService@4119dc89 - 24
+    Delays in thread demo.DelayedService@4119dc89 - 26
+    Delays in thread demo.DelayedService@4119dc89 - 28
+    Delays in thread demo.DelayedService@4119dc89 - 30
+    Delays in thread demo.DelayedService@4119dc89 - 32
+    Delays in thread demo.DelayedService@4119dc89 - 34
+    Delays in thread demo.DelayedService@4119dc89 - 36
+    Delays in thread demo.DelayedService@4119dc89 - 38
+    Ends Delaying in thread 38, value = 9
+    Delays in thread demo.DelayedService@4119dc89 - 38
+    Ends Delaying in thread 26, value = 10
+    Ends Delaying in thread 32, value = 10
+    Ends Delaying in thread 34, value = 10
+    Ends Delaying in thread 36, value = 10
+    Ends Delaying in thread 24, value = 10
+    Ends Delaying in thread 28, value = 10
+    Ends Delaying in thread 12, value = 10
+    Ends Delaying in thread 38, value = 10
+    Ends Delaying in thread 30, value = 10
