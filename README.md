@@ -15,7 +15,7 @@
         private AtomicInteger counter = new AtomicInteger(0);
 
         @ServiceActivator
-        public void justDelay(Object obj) throws Exception {
+        public void apply(Object obj) throws Exception {
             System.out.println("Delays in thread " + this + " - " + Thread.currentThread().getId());
             counter.incrementAndGet();
             TimeUnit.SECONDS.sleep(new Random().nextInt(10));
