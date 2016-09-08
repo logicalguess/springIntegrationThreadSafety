@@ -15,7 +15,11 @@
         <int:queue capacity="10"/>
     </int:channel>
 
-    <int:service-activator ref="service" input-channel="channel-in">
+    <int:channel id="channel-out">
+        <int:queue capacity="10"/>
+    </int:channel>
+
+    <int:service-activator ref="service" input-channel="channel-in" output-channel="channel-out">
         <int:poller fixed-delay="100" time-unit="MILLISECONDS" task-executor="taskExec"></int:poller>
     </int:service-activator>
 

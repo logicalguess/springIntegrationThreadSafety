@@ -10,10 +10,11 @@ public class DelayedService {
     private AtomicInteger counter = new AtomicInteger(0);
 
     @ServiceActivator
-    public void apply(Object obj) throws Exception {
+    public Integer apply(Object obj) throws Exception {
         System.out.println("Delays in thread " + this + " - " + Thread.currentThread().getId());
-        counter.incrementAndGet();
+        Integer incremented = counter.incrementAndGet();
         TimeUnit.SECONDS.sleep(new Random().nextInt(10));
         System.out.println("Ends Delaying in thread " + Thread.currentThread().getId() + ", value = " + counter);
+        return incremented;
     }
 }
