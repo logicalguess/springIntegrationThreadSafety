@@ -14,19 +14,15 @@ public class Test {
             "applicationContext.xml");
 
     private static TaskExecutor taskExec = (TaskExecutor) context.getBean("taskExec");
-
     private static MessageChannel inChannel = (MessageChannel) context.getBean("channel-in");
 
-
     public static void main(String[] args) throws Exception {
-
         Runnable r = new Runnable() {
 
             public void run() {
                 System.out.println("Saying hello from thread : " + Thread.currentThread().getId());
                 Message<String> message = MessageBuilder.withPayload("").build();
                 inChannel.send(message);
-
             }
         };
 
