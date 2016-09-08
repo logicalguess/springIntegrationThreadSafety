@@ -6,9 +6,6 @@ import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 
-import java.util.concurrent.TimeUnit;
-
-
 public class Test {
     private static ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
             "applicationContext.xml");
@@ -29,7 +26,5 @@ public class Test {
         for (int k = 0; k < 10; ++k) {
             taskExec.execute(r);
         }
-
-        TimeUnit.SECONDS.sleep(10);
     }
 }
