@@ -20,12 +20,10 @@
         private AtomicInteger counter = new AtomicInteger(0);
 
         @ServiceActivator
-        public Integer apply(Object obj) throws Exception {
-            System.out.println("Delays in thread " + this + " - " + Thread.currentThread().getId());
+        public String apply(Object obj) throws Exception {
             Integer incremented = counter.incrementAndGet();
             TimeUnit.SECONDS.sleep(new Random().nextInt(10));
-            System.out.println("Ends Delaying in thread " + Thread.currentThread().getId() + ", value = " + counter);
-            return incremented;
+            return String.format("incremented=%s, final=%s", incremented, counter);
         }
     }
 
@@ -43,7 +41,6 @@
             Runnable r = new Runnable() {
 
                 public void run() {
-                    System.out.println("SENDING MESSAGE FROM THREAD : " + Thread.currentThread().getId());
                     Message<String> message = MessageBuilder.withPayload("").build();
                     inChannel.send(message);
                 }
@@ -54,51 +51,19 @@
             }
 
             for (int k = 0; k < 10; ++k) {
-                System.out.println("GOT MESSAGE: " + outChannel.receive().getPayload());
+                System.out.println("RECEIVED MESSAGE: " + outChannel.receive().getPayload());
             }
             System.exit(0);
-
         }
-
     }
 #
-    SENDING MESSAGE FROM THREAD : 14
-    SENDING MESSAGE FROM THREAD : 15
-    SENDING MESSAGE FROM THREAD : 16
-    SENDING MESSAGE FROM THREAD : 17
-    SENDING MESSAGE FROM THREAD : 18
-    SENDING MESSAGE FROM THREAD : 19
-    SENDING MESSAGE FROM THREAD : 20
-    SENDING MESSAGE FROM THREAD : 21
-    SENDING MESSAGE FROM THREAD : 22
-    Delays in thread demo.DelayedService@2209a59d - 12
-    SENDING MESSAGE FROM THREAD : 23
-    Delays in thread demo.DelayedService@2209a59d - 24
-    Delays in thread demo.DelayedService@2209a59d - 26
-    Delays in thread demo.DelayedService@2209a59d - 28
-    Delays in thread demo.DelayedService@2209a59d - 30
-    Delays in thread demo.DelayedService@2209a59d - 32
-    Delays in thread demo.DelayedService@2209a59d - 34
-    Delays in thread demo.DelayedService@2209a59d - 36
-    Delays in thread demo.DelayedService@2209a59d - 38
-    Delays in thread demo.DelayedService@2209a59d - 40
-    Ends Delaying in thread 24, value = 10
-    GOT MESSAGE: 2
-    Ends Delaying in thread 26, value = 10
-    GOT MESSAGE: 3
-    Ends Delaying in thread 32, value = 10
-    GOT MESSAGE: 6
-    Ends Delaying in thread 30, value = 10
-    GOT MESSAGE: 5
-    Ends Delaying in thread 34, value = 10
-    GOT MESSAGE: 7
-    Ends Delaying in thread 28, value = 10
-    GOT MESSAGE: 4
-    Ends Delaying in thread 38, value = 10
-    GOT MESSAGE: 9
-    Ends Delaying in thread 40, value = 10
-    GOT MESSAGE: 10
-    Ends Delaying in thread 12, value = 10
-    GOT MESSAGE: 1
-    Ends Delaying in thread 36, value = 10
-    GOT MESSAGE: 8
+    RECEIVED MESSAGE: incremented=2, final=2
+    RECEIVED MESSAGE: incremented=10, final=10
+    RECEIVED MESSAGE: incremented=4, final=10
+    RECEIVED MESSAGE: incremented=3, final=10
+    RECEIVED MESSAGE: incremented=7, final=10
+    RECEIVED MESSAGE: incremented=9, final=10
+    RECEIVED MESSAGE: incremented=1, final=10
+    RECEIVED MESSAGE: incremented=6, final=10
+    RECEIVED MESSAGE: incremented=8, final=10
+    RECEIVED MESSAGE: incremented=5, final=10

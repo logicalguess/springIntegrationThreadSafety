@@ -20,7 +20,6 @@ public class Test {
         Runnable r = new Runnable() {
 
             public void run() {
-                System.out.println("SENDING MESSAGE FROM THREAD : " + Thread.currentThread().getId());
                 Message<String> message = MessageBuilder.withPayload("").build();
                 inChannel.send(message);
             }
@@ -31,10 +30,8 @@ public class Test {
         }
 
         for (int k = 0; k < 10; ++k) {
-            System.out.println("GOT MESSAGE: " + outChannel.receive().getPayload());
+            System.out.println("RECEIVED MESSAGE: " + outChannel.receive().getPayload());
         }
         System.exit(0);
-
     }
-
 }
