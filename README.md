@@ -56,6 +56,7 @@
             for (int k = 0; k < 10; ++k) {
                 System.out.println("GOT MESSAGE: " + outChannel.receive().getPayload());
             }
+            System.exit(0);
 
         }
 
