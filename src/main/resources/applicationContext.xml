@@ -7,9 +7,15 @@
 		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
 
-    <task:executor id="taskExec" pool-size="50" keep-alive="120"/>
+    <task:scheduler id="taskExec" pool-size="50"/>
 
-    <bean id="service" class="demo.DelayedService"/>
+    <bean id="simulator" class="demo.DelaySimulator">
+        <constructor-arg ref="taskExec"/>
+    </bean>
+
+    <bean id="service" class="demo.DelayedService">
+        <constructor-arg ref="simulator"/>
+    </bean>
 
     <int:channel id="channel-in">
         <int:queue capacity="10"/>

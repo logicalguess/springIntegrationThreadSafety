@@ -1,6 +1,13 @@
-        <task:executor id="taskExec" pool-size="50" keep-alive="120"/>
+#
+        <task:scheduler id="taskExec" pool-size="50"/>
 
-        <bean id="service" class="demo.DelayedService"/>
+        <bean id="simulator" class="demo.DelaySimulator">
+            <constructor-arg ref="taskExec"/>
+        </bean>
+
+        <bean id="service" class="demo.DelayedService">
+            <constructor-arg ref="simulator"/>
+        </bean>
 
         <int:channel id="channel-in">
             <int:queue capacity="10"/>
@@ -14,15 +21,20 @@
             <int:poller fixed-delay="100" time-unit="MILLISECONDS" task-executor="taskExec"></int:poller>
         </int:service-activator>
 
-
 #
-    public class DelayedService {
+    public class DelayedService implements Function<String, String> {
+
         private AtomicInteger counter = new AtomicInteger(0);
+        private DelaySimulator simulator;
+
+        public DelayedService(DelaySimulator simulator) {
+            this.simulator = simulator;
+        }
 
         @ServiceActivator
-        public String apply(Object obj) throws Exception {
+        public String apply(String in) {
             Integer incremented = counter.incrementAndGet();
-            TimeUnit.SECONDS.sleep(new Random().nextInt(10));
+            simulator.simulateLongRunningTransaction();
             return String.format("incremented=%s, final=%s", incremented, counter);
         }
     }
