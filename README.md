@@ -50,21 +50,17 @@
 
 
         public static void main(String[] args) throws Exception {
-            Runnable r = new Runnable() {
+            int count = 10;
 
-                public void run() {
-                    Message<String> message = MessageBuilder.withPayload("").build();
-                    inChannel.send(message);
-                }
-            };
+            IntStream.rangeClosed(1, count).forEach((i) -> taskExec.execute(() -> {
+                Message<String> message = MessageBuilder.withPayload("").build();
+                inChannel.send(message);
+            }));
 
-            for (int k = 0; k < 10; ++k) {
-                taskExec.execute(r);
-            }
+            IntStream.rangeClosed(1, count).forEach((i) -> {
+                    System.out.println("RECEIVED MESSAGE: " + outChannel.receive().getPayload());
+            });
 
-            for (int k = 0; k < 10; ++k) {
-                System.out.println("RECEIVED MESSAGE: " + outChannel.receive().getPayload());
-            }
             System.exit(0);
         }
     }
