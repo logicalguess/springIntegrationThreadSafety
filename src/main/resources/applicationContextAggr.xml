@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+
+    <task:scheduler id="taskExec" pool-size="50"/>
+
+    <bean id="simulator" class="demo.DelaySimulator">
+        <constructor-arg ref="taskExec"/>
+    </bean>
+
+    <int:channel id="channel-in">
+        <int:queue capacity="10"/>
+    </int:channel>
+
+
+    <int:channel id="channel-out">
+        <int:queue capacity="10"/>
+    </int:channel>
+
+    <!--
+    the poller will process Integer.MAX_VALUE messages every second
+    if the size of the group is Integer.MAX_VALUE (the poll reached the max messages) or 1 second time out
+    -->
+    <int:aggregator input-channel="channel-in" output-channel="channel-aggr"
+                    send-partial-result-on-expiry="true"
+                    group-timeout="100"
+                    correlation-strategy-expression="T(Thread).currentThread().id"
+                    release-strategy-expression="size() == T(Integer).MAX_VALUE">
+        <int:poller fixed-rate="100"/> <!--max-messages-per-poll=""-->
+    </int:aggregator>
+
+    <int:channel id="channel-aggr"/>
+
+    <bean id="service-aggr" class="demo.ServiceAggregator" />
+
+    <!-- the payload is a list of log entries as result of the aggregator -->
+    <int:service-activator ref="service-aggr" input-channel="channel-aggr" output-channel="channel-out" />
+
+</beans>
