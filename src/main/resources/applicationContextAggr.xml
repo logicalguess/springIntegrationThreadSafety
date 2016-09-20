@@ -24,7 +24,7 @@
 
     <!--
     the poller will process Integer.MAX_VALUE messages every second
-    if the size of the group is Integer.MAX_VALUE (the poll reached the max messages) or 1 second time out
+    if the size of the group is Integer.MAX_VALUE (the poll reached the max messages) or 100 milliseconds time out
     -->
     <int:aggregator input-channel="channel-in" output-channel="channel-aggr"
                     send-partial-result-on-expiry="true"
