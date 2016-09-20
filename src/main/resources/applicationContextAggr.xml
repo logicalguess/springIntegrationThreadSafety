@@ -29,9 +29,9 @@
     <int:aggregator input-channel="channel-in" output-channel="channel-aggr"
                     send-partial-result-on-expiry="true"
                     group-timeout="100"
-                    correlation-strategy-expression="T(Thread).currentThread().id"
+                    correlation-strategy-expression="true"
                     release-strategy-expression="size() == T(Integer).MAX_VALUE">
-        <int:poller fixed-rate="100"/> <!--max-messages-per-poll=""-->
+        <int:poller fixed-rate="100"/> <!--max-messages-per-poll=""--> <!--T(Thread).currentThread().id-->
     </int:aggregator>
 
     <int:channel id="channel-aggr"/>
